@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Montgomery College Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f1f1f1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .chat-container {
+      width: 100%;
+      max-width: 450px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      height: 90vh;
+    }
+    .chat-box {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+    }
+    .message {
+      margin: 10px 0;
+      padding: 10px 15px;
+      border-radius: 20px;
+      max-width: 80%;
+      line-height: 1.4;
+    }
+    .bot {
+      background-color: #e0e0e0;
+      align-self: flex-start;
+    }
+    .user {
+      background-color: #007bff;
+      color: white;
+      align-self: flex-end;
+    }
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .option-btn {
+      padding: 10px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      border-radius: 15px;
+      cursor: pointer;
+      flex: 1;
+    }
+    .footer {
+      padding: 10px;
+      border-top: 1px solid #ddd;
+      text-align: center;
+      font-size: 0.85em;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+<div class="chat-container">
+  <div class="chat-box" id="chatBox">
+    <div class="message bot">👋 Hi there! I'm your Montgomery College Assistant. How can I help you today?</div>
+    <div class="options" id="options">
+      <button class="option-btn" onclick="respond('Programs & Majors')">Programs & Majors</button>
+      <button class="option-btn" onclick="respond('How to Apply')">How to Apply</button>
+      <button class="option-btn" onclick="respond('Financial Aid')">Financial Aid</button>
+      <button class="option-btn" onclick="respond('Schedule an Appointment')">Schedule an Appointment</button>
+    </div>
+  </div>
+  <div class="footer">Montgomery College Chatbot</div>
+</div>
+
+<script>
+  function respond(choice) {
+    const chatBox = document.getElementById('chatBox');
+    const options = document.getElementById('options');
+
+    // Add user's choice
+    const userMsg = document.createElement('div');
+    userMsg.className = 'message user';
+    userMsg.textContent = choice;
+    chatBox.appendChild(userMsg);
+
+    // Create bot response
+    const botMsg = document.createElement('div');
+    botMsg.className = 'message bot';
+
+    let response = '';
+    if (choice === 'Programs & Majors') {
+      response = 'Here are our programs and majors: https://www.montgomerycollege.edu/academics/programs/index.html';
+    } else if (choice === 'How to Apply') {
+      response = 'Learn how to apply to Montgomery College: https://www.montgomerycollege.edu/admissions/index.html';
+    } else if (choice === 'Financial Aid') {
+      response = 'Explore financial aid options: https://www.montgomerycollege.edu/paying-for-college/financial-aid/index.html';
+    } else if (choice === 'Schedule an Appointment') {
+      response = 'You can schedule an appointment with a registration specialist here: https://calendly.com/dficca1-montgomerycollege/30min?preview_source=et_card&month=2025-04&date=2025-04-21';
+    } else {
+      response = 'Sorry, I didn\'t get that.';
+    }
+
+    botMsg.textContent = response;
+    chatBox.appendChild(botMsg);
+    options.remove();
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+</script>
+</body>
+</html>
