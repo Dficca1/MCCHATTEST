@@ -1,121 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Montgomery College Chatbot</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
       margin: 0;
-      background: #f1f1f1;
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
+
     .chat-container {
-      width: 100%;
-      max-width: 450px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background: white;
+      width: 400px;
+      height: 600px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
       display: flex;
       flex-direction: column;
-      height: 90vh;
+      overflow: hidden;
     }
-    .chat-box {
-      flex: 1;
+
+    .chat-header {
+      background: #51247a;
+      color: white;
       padding: 15px;
+      text-align: center;
+      position: relative;
+    }
+
+    .chat-header img {
+      width: 40px;
+      height: auto;
+      position: absolute;
+      left: 15px;
+      top: 10px;
+    }
+
+    .chat-messages {
+      flex: 1;
+      padding: 20px;
       overflow-y: auto;
     }
+
     .message {
-      margin: 10px 0;
-      padding: 10px 15px;
-      border-radius: 20px;
-      max-width: 80%;
-      line-height: 1.4;
+      margin-bottom: 12px;
     }
+
     .bot {
-      background-color: #e0e0e0;
-      align-self: flex-start;
+      background: #e4d9f3;
+      color: #333;
+      padding: 10px 14px;
+      border-radius: 12px;
+      display: inline-block;
+      max-width: 80%;
     }
+
     .user {
-      background-color: #007bff;
-      color: white;
-      align-self: flex-end;
+      text-align: right;
     }
-    .options {
+
+    .user .msg {
+      background: #51247a;
+      color: white;
+      padding: 10px 14px;
+      border-radius: 12px;
+      display: inline-block;
+      max-width: 80%;
+    }
+
+    .chat-input {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .option-btn {
-      padding: 10px;
-      border: none;
-      background-color: #007bff;
-      color: white;
-      border-radius: 15px;
-      cursor: pointer;
-      flex: 1;
-    }
-    .footer {
       padding: 10px;
       border-top: 1px solid #ddd;
-      text-align: center;
-      font-size: 0.85em;
-      color: #666;
+    }
+
+    .chat-input input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      outline: none;
+    }
+
+    .chat-input button {
+      background: #51247a;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 20px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+
+    a {
+      color: #51247a;
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-<div class="chat-container">
-  <div class="chat-box" id="chatBox">
-    <div class="message bot">👋 Hi there! I'm your Montgomery College Assistant. How can I help you today?</div>
-    <div class="options" id="options">
-      <button class="option-btn" onclick="respond('Programs & Majors')">Programs & Majors</button>
-      <button class="option-btn" onclick="respond('How to Apply')">How to Apply</button>
-      <button class="option-btn" onclick="respond('Financial Aid')">Financial Aid</button>
-      <button class="option-btn" onclick="respond('Schedule an Appointment')">Schedule an Appointment</button>
+  <div class="chat-container">
+    <div class="chat-header">
+      <img src="https://www.montgomerycollege.edu/_images/logos/mc-logo-white.png" alt="Montgomery College Logo" />
+      Montgomery College Virtual Assistant
+    </div>
+    <div class="chat-messages" id="chat">
+      <div class="message bot">Hi there! I'm your Montgomery College assistant. How can I help you today?</div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="userInput" placeholder="Type a message..." />
+      <button onclick="sendMessage()">Send</button>
     </div>
   </div>
-  <div class="footer">Montgomery College Chatbot</div>
-</div>
 
-<script>
-  function respond(choice) {
-    const chatBox = document.getElementById('chatBox');
-    const options = document.getElementById('options');
+  <script>
+    function sendMessage() {
+      const input = document.getElementById('userInput');
+      const message = input.value.trim();
+      if (message === '') return;
 
-    // Add user's choice
-    const userMsg = document.createElement('div');
-    userMsg.className = 'message user';
-    userMsg.textContent = choice;
-    chatBox.appendChild(userMsg);
+      const chat = document.getElementById('chat');
 
-    // Create bot response
-    const botMsg = document.createElement('div');
-    botMsg.className = 'message bot';
+      // Show user message
+      const userMsg = document.createElement('div');
+      userMsg.className = 'message user';
+      userMsg.innerHTML = `<div class="msg">${message}</div>`;
+      chat.appendChild(userMsg);
 
-    let response = '';
-    if (choice === 'Programs & Majors') {
-      response = 'Here are our programs and majors: https://www.montgomerycollege.edu/academics/programs/index.html';
-    } else if (choice === 'How to Apply') {
-      response = 'Learn how to apply to Montgomery College: https://www.montgomerycollege.edu/admissions/index.html';
-    } else if (choice === 'Financial Aid') {
-      response = 'Explore financial aid options: https://www.montgomerycollege.edu/paying-for-college/financial-aid/index.html';
-    } else if (choice === 'Schedule an Appointment') {
-      response = 'You can schedule an appointment with a registration specialist here: https://calendly.com/dficca1-montgomerycollege/30min?preview_source=et_card&month=2025-04&date=2025-04-21';
-    } else {
-      response = 'Sorry, I didn\'t get that.';
+      // Show bot response
+      const botMsg = document.createElement('div');
+      botMsg.className = 'message bot';
+      botMsg.innerHTML = getBotReply(message);
+      chat.appendChild(botMsg);
+
+      chat.scrollTop = chat.scrollHeight;
+      input.value = '';
     }
 
-    botMsg.textContent = response;
-    chatBox.appendChild(botMsg);
-    options.remove();
-    chatBox.scrollTop = chatBox.scrollHeight;
-  }
-</script>
+    function getBotReply(input) {
+      const msg = input.toLowerCase();
+
+      if (msg.includes("credit") || msg.includes("degree")) {
+        return "Montgomery College offers associate degrees and certificates in over 130 areas of study. You can explore programs here: <a href='https://www.montgomerycollege.edu/academics/programs/index.html' target='_blank'>Credit Programs</a>";
+      }
+
+      if (msg.includes("workforce") || msg.includes("continuing") || msg.includes("non-credit")) {
+        return "Our Workforce Development & Continuing Education (WDCE) programs include job training, certifications, and personal enrichment. Learn more here: <a href='https://www.montgomerycollege.edu/workforce-development-continuing-education/index.html' target='_blank'>Non-Credit Programs</a>";
+      }
+
+      if (msg.includes("financial aid")) {
+        return "You can find information about how to apply for financial aid, FAFSA, and eligibility here: <a href='https://www.montgomerycollege.edu/paying-for-college/financial-aid/index.html' target='_blank'>Financial Aid Info</a>";
+      }
+
+      if (msg.includes("scholarship")) {
+        return "Montgomery College offers a variety of scholarships to help pay for your education. Visit: <a href='https://www.montgomerycollege.edu/paying-for-college/scholarships/index.html' target='_blank'>Scholarships</a>";
+      }
+
+      if (msg.includes("appointment") || msg.includes("talk") || msg.includes("meet")) {
+        return "I'd love to help more! Please book a time to talk with someone from our team here: <a href='https://calendly.com/dficca1-montgomerycollege/30min' target='_blank'>Book an Appointment</a>";
+      }
+
+      return "Great question! I recommend you <a href='https://calendly.com/dficca1-montgomerycollege/30min' target='_blank'>book an appointment</a> to get personalized help.";
+    }
+  </script>
 </body>
 </html>
